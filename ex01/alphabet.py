@@ -27,7 +27,6 @@ def ans(play):
 
 
 
-
     print("正解です。それでは、具体的に欠損文字を１つずつ入力してください")
     lost_a = ["",""]
     for i in range(1,3):
