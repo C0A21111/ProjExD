@@ -13,7 +13,6 @@ def quiz(n,m):
     print("表示文字：\n"+" ".join(chr_q))
     return lost_q
 
-
 def ans(play):
     chr_c_a =input("欠損文字はいくつあるでしょうか？：")
 
@@ -23,8 +22,10 @@ def ans(play):
     chr_c_a = int(chr_c_a)
 
     if not chr_c_a == lostchr_c_q:
-        mes()
+        print("不正解です。またチャレンジしてください\n","-"*30)
         return play 
+
+
 
 
     print("正解です。それでは、具体的に欠損文字を１つずつ入力してください")
@@ -39,16 +40,11 @@ def ans(play):
         for l in lost_a:
             lost_q.remove(l)
     except ValueError:
-        mes()
+        print("不正解です。またチャレンジしてください\n","-"*30)
     
     print("正解です。おわり。\n", "-"*30)
     return False
-
-
-def mes():
-    print("不正解です。またチャレンジしてください\n","-"*30)
-    
-
+  
 if __name__ == "__main__":
     st = datetime.now()
 
