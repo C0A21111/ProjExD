@@ -1,12 +1,8 @@
 import tkinter as tk
-# import tkinter.messagebox as tkm
 
+# ウィンドウインスタンス生成
 calc =tk.Tk()
 calc.geometry("400x420")
-
-# テキスト入力欄
-entry=tk.Entry(calc,justify="right", width=10, font=("",40))
-entry.grid(columnspan=3)
 
 # 計算のために書式を整えるところ([=]で呼び出す)
 def fml_replace(fml):
@@ -15,6 +11,7 @@ def fml_replace(fml):
     fml = fml.replace("÷","/")
     return fml
 
+# ボタンクリック時のイベント
 def btn_click(event):
     btn = event.widget
     txt = btn["text"]
@@ -35,51 +32,32 @@ def btn_click(event):
             txt = "^"
         entry.insert(tk.END, txt)
 
+# ボタンを実装する関数
 def mk_btn(btn_txt,x,y):
     btn = tk.Button(calc, text=btn_txt, width=4, height=1, font=("",30))
     btn.bind("<1>", btn_click)
     btn.grid(row=x,column=y)
 
-# 数字ボタン
-for n in range(9,-1,-1):
-    btn = tk.Button(calc, text=f"{n}", width=4, height=1, font=("",30))
-    btn.bind("<1>", btn_click)
-    if n==0:
-        btn.grid(row=((9-n)//3)+2,column=1)
-    else:
-        btn.grid(row=((9-n)//3)+2,column=2-((9-n)%3))
+# テキスト入力欄
+entry=tk.Entry(calc,justify="right", width=10, font=("",40))
+entry.grid(columnspan=3)
 
-# [←]ボタン
-mk_btn("←",0,3)
+# ボタンのリスト（配列）
+btn_txts = [["entry", None, None,"←"],
+            ["x^y", "CE", "C", "÷"],
+            ["7", "8", "9", "×"],
+            ["4", "5", "6", "-"],
+            ["1", "2", "3", "+"],
+            ["00", "0", ".", "="]]
 
-# [x^y]ボタン
-mk_btn("x^y",1,0)
-
-# [CE]ボタン
-mk_btn("CE",1,1)
-
-# [C]ボタン
-mk_btn("C",1,2)
-
-# [+]ボタン
-mk_btn("+",4,3)
-
-# [-]ボタン
-mk_btn("-",3,3)
-
-# [×]ボタン
-mk_btn("×",2,3)
-
-# [÷]ボタン
-mk_btn("÷",1,3)
-
-# [00]ボタン
-mk_btn("00",5,0)
-
-# [.]ボタン
-mk_btn(".",5,2)
-
-# [=]ボタン
-mk_btn("=",5,3)
+# ボタンの作成
+for i in range(6):
+    for j in range(4):
+        if btn_txts[i][j]=="entry":
+            continue
+        elif not btn_txts[i][j]:
+            continue
+        else:
+            mk_btn(btn_txts[i][j],i,j)
 
 calc.mainloop()
