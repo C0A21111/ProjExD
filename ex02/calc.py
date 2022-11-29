@@ -35,6 +35,11 @@ def btn_click(event):
             txt = "^"
         entry.insert(tk.END, txt)
 
+def mk_btn(btn_txt,x,y):
+    btn = tk.Button(calc, text=btn_txt, width=4, height=1, font=("",30))
+    btn.bind("<1>", btn_click)
+    btn.grid(row=x,column=y)
+
 # 数字ボタン
 for n in range(9,-1,-1):
     btn = tk.Button(calc, text=f"{n}", width=4, height=1, font=("",30))
@@ -45,58 +50,36 @@ for n in range(9,-1,-1):
         btn.grid(row=((9-n)//3)+2,column=2-((9-n)%3))
 
 # [←]ボタン
-btn = tk.Button(calc, text=f"←", width=4, height=1, font=("",30))
-btn.bind("<1>", btn_click)
-btn.grid(row=0,column=3)
-
-# [C]ボタン
-btn = tk.Button(calc, text=f"C", width=4, height=1, font=("",30))
-btn.bind("<1>", btn_click)
-btn.grid(row=1,column=2)
-
-# [CE]ボタン
-btn = tk.Button(calc, text=f"CE", width=4, height=1, font=("",30))
-btn.bind("<1>", btn_click)
-btn.grid(row=1,column=1)
+mk_btn("←",0,3)
 
 # [x^y]ボタン
-btn = tk.Button(calc, text=f"x^y", width=4, height=1, font=("",30))
-btn.bind("<1>", btn_click)
-btn.grid(row=1,column=0)
+mk_btn("x^y",1,0)
+
+# [CE]ボタン
+mk_btn("CE",1,1)
+
+# [C]ボタン
+mk_btn("C",1,2)
 
 # [+]ボタン
-btn = tk.Button(calc, text=f"+", width=4, height=1, font=("",30))
-btn.bind("<1>", btn_click)
-btn.grid(row=4,column=3)
+mk_btn("+",4,3)
 
 # [-]ボタン
-btn = tk.Button(calc, text=f"-", width=4, height=1, font=("",30))
-btn.bind("<1>", btn_click)
-btn.grid(row=3,column=3)
+mk_btn("-",3,3)
 
 # [×]ボタン
-btn = tk.Button(calc, text=f"×", width=4, height=1, font=("",30))
-btn.bind("<1>", btn_click)
-btn.grid(row=2,column=3)
+mk_btn("×",2,3)
 
 # [÷]ボタン
-btn = tk.Button(calc, text=f"÷", width=4, height=1, font=("",30))
-btn.bind("<1>", btn_click)
-btn.grid(row=1,column=3)
+mk_btn("÷",1,3)
 
 # [00]ボタン
-btn = tk.Button(calc, text=f"00", width=4, height=1, font=("",30))
-btn.bind("<1>", btn_click)
-btn.grid(row=5,column=0)
+mk_btn("00",5,0)
 
 # [.]ボタン
-btn = tk.Button(calc, text=f".", width=4, height=1, font=("",30))
-btn.bind("<1>", btn_click)
-btn.grid(row=5,column=2)
+mk_btn(".",5,2)
 
 # [=]ボタン
-btn = tk.Button(calc, text=f"=", width=4, height=1, font=("",30))
-btn.bind("<1>", btn_click)
-btn.grid(row=5,column=3)
+mk_btn("=",5,3)
 
 calc.mainloop()
