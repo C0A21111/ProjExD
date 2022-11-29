@@ -18,9 +18,9 @@ def btn_click(event):
         btn = event.widget
         txt = btn["text"]
         if txt == "CE":
-            entry.delete(0,tk.END)
-        elif txt == "C":
             entry.delete(len(entry.get())-3,tk.END)
+        elif txt == "C":
+            entry.delete(0,tk.END)
         elif txt == "←":
             entry.delete(len(entry.get())-1,tk.END)
         elif txt == "=":
