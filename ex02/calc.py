@@ -4,6 +4,7 @@ import tkinter as tk
 calc =tk.Tk()
 calc.geometry("300x500")
 
+# テキスト入力欄
 entry=tk.Entry(calc,justify="right", width=10, font=("",40))
 entry.grid(columnspan=3)
 
@@ -18,18 +19,23 @@ def btn_click(event):
     else:
         entry.insert(tk.END, txt)
 
-
+# 数字ボタン
 for n in range(9,-1,-1):
     btn = tk.Button(calc, text=f"{n}", width=4, height=2, font=("",30))
     btn.bind("<1>", btn_click)
-    btn.grid(row=((9-n)//3)+1,column=(9-n)%3)
+    if n==0:
+        btn.grid(row=((9-n)//3)+2,column=((9-n)%3))
+    else:
+        btn.grid(row=((9-n)//3)+2,column=2-((9-n)%3))
 
+# [+]ボタン
 btn = tk.Button(calc, text=f"+", width=4, height=2, font=("",30))
 btn.bind("<1>", btn_click)
-btn.grid(row=4,column=1)
+btn.grid(row=5,column=1)
 
+# [=]ボタン
 btn = tk.Button(calc, text=f"=", width=4, height=2, font=("",30))
 btn.bind("<1>", btn_click)
-btn.grid(row=4,column=2)
+btn.grid(row=5,column=2)
 
 calc.mainloop()
