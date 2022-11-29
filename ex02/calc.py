@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.messagebox as tkm
 
 # ウィンドウインスタンス生成
 calc =tk.Tk()
@@ -13,24 +14,27 @@ def fml_replace(fml):
 
 # ボタンクリック時のイベント
 def btn_click(event):
-    btn = event.widget
-    txt = btn["text"]
-    if txt == "CE":
-        entry.delete(0,tk.END)
-    elif txt == "C":
-        entry.delete(len(entry.get())-3,tk.END)
-    elif txt == "←":
-        entry.delete(len(entry.get())-1,tk.END)
-    elif txt == "=":
-        fml = entry.get()
-        fml = fml_replace(fml)
-        res = eval(fml)
-        entry.delete(0,tk.END)
-        entry.insert(tk.END,res)
-    else:
-        if txt == "x^y":
-            txt = "^"
-        entry.insert(tk.END, txt)
+    try:
+        btn = event.widget
+        txt = btn["text"]
+        if txt == "CE":
+            entry.delete(0,tk.END)
+        elif txt == "C":
+            entry.delete(len(entry.get())-3,tk.END)
+        elif txt == "←":
+            entry.delete(len(entry.get())-1,tk.END)
+        elif txt == "=":
+            fml = entry.get()
+            fml = fml_replace(fml)
+            res = eval(fml)
+            entry.delete(0,tk.END)
+            entry.insert(tk.END,res)
+        else:
+            if txt == "x^y":
+                txt = "^"
+            entry.insert(tk.END, txt)
+    except SyntaxError:
+        tkm.showerror("演算子エラー", "不正な値が入力されました。")
 
 # ボタンを実装する関数
 def mk_btn(btn_txt,x,y):
