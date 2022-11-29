@@ -1,10 +1,6 @@
 import tkinter as tk
 import tkinter.messagebox as tkm
 
-# ウィンドウインスタンス生成
-calc =tk.Tk()
-calc.geometry("400x420")
-
 # 計算のために書式を整えるところ([=]で呼び出す)
 def fml_replace(fml):
     fml = fml.replace("^","**")
@@ -42,24 +38,29 @@ def mk_btn(btn_txt,x,y):
     btn.bind("<1>", btn_click)
     btn.grid(row=x,column=y)
 
-# ボタンのリスト（配列）
-btn_txts = [["entry", None, None,"←"],
-            ["x^y", "CE", "C", "÷"],
-            ["7", "8", "9", "×"],
-            ["4", "5", "6", "-"],
-            ["1", "2", "3", "+"],
-            ["00", "0", ".", "="]]
+if __name__ == "__main__":
+    # ウィンドウインスタンス生成
+    calc =tk.Tk()
+    calc.geometry("400x420")
 
-# ボタンの作成
-for i in range(6):
-    for j in range(4):
-        if btn_txts[i][j]=="entry":
-            # テキスト入力欄
-            entry=tk.Entry(calc,justify="right", width=14, font=("",30))
-            entry.grid(columnspan=3)
-        elif not btn_txts[i][j]:
-            continue
-        else:
-            mk_btn(btn_txts[i][j],i,j)
+    # ボタンのリスト（配列）
+    btn_txts = [["entry", None, None,"←"],
+                ["x^y", "CE", "C", "÷"],
+                ["7", "8", "9", "×"],
+                ["4", "5", "6", "-"],
+                ["1", "2", "3", "+"],
+                ["00", "0", ".", "="]]
 
-calc.mainloop()
+    # ボタンの作成
+    for i in range(6):
+        for j in range(4):
+            if btn_txts[i][j]=="entry":
+                # テキスト入力欄
+                entry=tk.Entry(calc,justify="right", width=14, font=("",30))
+                entry.grid(columnspan=3)
+            elif not btn_txts[i][j]:
+                continue
+            else:
+                mk_btn(btn_txts[i][j],i,j)
+
+    calc.mainloop()
