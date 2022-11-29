@@ -51,7 +51,7 @@ for i in range(6):
     for j in range(4):
         if btn_txts[i][j]=="entry":
             # テキスト入力欄
-            entry=tk.Entry(calc,justify="right", width=10, font=("",40))
+            entry=tk.Entry(calc,justify="right", width=14, font=("",30))
             entry.grid(columnspan=3)
         elif not btn_txts[i][j]:
             continue
