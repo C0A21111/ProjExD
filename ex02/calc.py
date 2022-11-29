@@ -11,8 +11,8 @@ def btn_click(event):
     btn = event.widget
     txt = btn["text"]
     if txt == "=":
-        siki = entry.get()
-        res = eval(siki)
+        fml = entry.get()
+        res = eval(fml)
         entry.delete(0,tk.END)
         entry.insert(tk.END,res)
     else:
