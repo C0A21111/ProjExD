@@ -11,7 +11,10 @@ def btn_click(event):
     btn = event.widget
     txt = btn["text"]
     if txt == "=":
-        pass
+        siki = entry.get()
+        res = eval(siki)
+        entry.delete(0,tk.END)
+        entry.insert(tk.END,res)
     else:
         entry.insert(tk.END, txt)
 
@@ -26,6 +29,7 @@ btn.bind("<1>", btn_click)
 btn.grid(row=4,column=1)
 
 btn = tk.Button(calc, text=f"=", width=4, height=2, font=("",30))
+btn.bind("<1>", btn_click)
 btn.grid(row=4,column=2)
 
 calc.mainloop()
