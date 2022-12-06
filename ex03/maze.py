@@ -12,4 +12,6 @@ if __name__ == "__main__":
     canvas.create_image(cx,cy,image=image,tag="kktn0")
     canvas.pack()
 
+    key = ""
+
     root.mainloop()
