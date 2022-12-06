@@ -10,16 +10,16 @@ def key_up(event):
     key = ""
 
 def main_proc():
-    global cx,cy
+    global mx,my
     if key=="Up":
-        cy -= 20
+        my -= 1
     if key=="Down":
-        cy += 20
+        my += 1
     if key=="Left":
-        cx -= 20
+        mx -= 1
     if key=="Right":
-        cx += 20
-    canvas.coords("kktn0",cx,cy)
+        mx += 1
+    canvas.coords("kktn0",mx*100+50,my*100+50)
     root.after(100,main_proc)
 
 if __name__ == "__main__":
@@ -28,11 +28,13 @@ if __name__ == "__main__":
 
     image = tk.PhotoImage(file="fig/0.png")
     canvas = tk.Canvas(width=1500,height=900,bg="#000000")
-    cx = 300
-    cy = 400
+    mx = 1
+    my = 1
+    cx = mx*100
+    cy = my*100
     maze_lst = mm.make_maze(15,9)
     mm.show_maze(canvas,maze_lst)
-    canvas.create_image(cx,cy,image=image,tag="kktn0")
+    canvas.create_image(cx+50,cy+50,image=image,tag="kktn0")
     canvas.pack()
 
     key = ""
