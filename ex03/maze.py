@@ -3,7 +3,8 @@ import maze_maker as mm
 import tkinter.messagebox as tkm
 
 def reset(event):
-    global mx,my
+    global mx,my,jid,goal
+    goal = False
     mx = 1
     my = 1
     tkm.showinfo("リセット", f"位置をリセット:\n初期位置に戻ります。")
@@ -11,6 +12,9 @@ def reset(event):
     canvas.coords("kktn0",mx*100+50,my*100+50)
     print("reset")
     canvas.pack()
+    print("jid:",jid, "\ngoal:",goal)
+    if not jid:
+        main_proc()
 
 def key_down(event):
     global key
@@ -25,14 +29,23 @@ def mk_img(kktn_num):
     image = tk.PhotoImage(file=f"fig/{kktn_num}.png")
     canvas.create_image(mx*100+50,my*100+50,image=image,tag="kktn0")
 
-def goal():
-    goal = False
+def game_goal():
+    global jid,goal
+    if not goal:
+        goal = True
+        res = tkm.askquestion(title="goal!!", message="ゴールしました。リセットしますか？")
+        if res=="yes":
+            reset("dummy")
+        if res=="no":
+            tkm.showinfo(title="infomation",message="[r]キーでいつでもリセットできます")
 
 def main_proc():
-    global mx,my,image
-    if mx==14 and my==8:
-        goal = True
-        goal()
+    global mx,my,image,jid,goal
+    print(mx,my)
+    if mx==13 and my==7:
+        root.after_cancel(jid)
+        jid = None
+        game_goal()
     if not key=="":
         if key=="Up"    and maze_lst[mx][my-1]==0: my -= 1
         if key=="Down"  and maze_lst[mx][my+1]==0: my += 1
@@ -40,7 +53,7 @@ def main_proc():
         if key=="Right" and maze_lst[mx+1][my]==0: mx += 1
         mk_img(img_dic[key])
     canvas.coords("kktn0",mx*100+50,my*100+50)
-    root.after(100,main_proc)
+    jid = root.after(100,main_proc)
 
 if __name__ == "__main__":
     root = tk.Tk()
@@ -61,6 +74,7 @@ if __name__ == "__main__":
     root.bind("<KeyRelease>",key_up)
     root.bind("r",reset)
 
+    jid = None
     main_proc()
 
     root.mainloop()
