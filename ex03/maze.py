@@ -1,5 +1,16 @@
 import tkinter as tk
 import maze_maker as mm
+import tkinter.messagebox as tkm
+
+def reset(event):
+    global mx,my
+    mx = 1
+    my = 1
+    tkm.showinfo("リセット", f"位置をリセット:\n初期位置に戻ります。")
+    mk_img(img_dic["r"])
+    canvas.coords("kktn0",mx*100+50,my*100+50)
+    print("reset")
+    canvas.pack()
 
 def key_down(event):
     global key
@@ -28,7 +39,7 @@ def main_proc():
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("迷えるこうかとん")
-    img_dic = {"Up":6,"Down":3,"Left":5,"Right":2}
+    img_dic = {"r":0,"Up":6,"Down":3,"Left":5,"Right":2}
 
     canvas = tk.Canvas(width=1500,height=900,bg="#000000")
     mx = 1
@@ -41,6 +52,7 @@ if __name__ == "__main__":
     key = ""
     root.bind("<KeyPress>",key_down)
     root.bind("<KeyRelease>",key_up)
+    root.bind("r",reset)
 
     main_proc()
 
