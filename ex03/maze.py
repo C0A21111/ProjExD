@@ -25,8 +25,14 @@ def mk_img(kktn_num):
     image = tk.PhotoImage(file=f"fig/{kktn_num}.png")
     canvas.create_image(mx*100+50,my*100+50,image=image,tag="kktn0")
 
+def goal():
+    goal = False
+
 def main_proc():
     global mx,my,image
+    if mx==14 and my==8:
+        goal = True
+        goal()
     if not key=="":
         if key=="Up"    and maze_lst[mx][my-1]==0: my -= 1
         if key=="Down"  and maze_lst[mx][my+1]==0: my += 1
@@ -40,6 +46,7 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.title("迷えるこうかとん")
     img_dic = {"r":0,"Up":6,"Down":3,"Left":5,"Right":2}
+    goal = False
 
     canvas = tk.Canvas(width=1500,height=900,bg="#000000")
     mx = 1
