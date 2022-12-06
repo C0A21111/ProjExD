@@ -24,7 +24,7 @@ def key_up(event):
     global key
     key = ""
 
-def mk_img(kktn_num):
+def mk_img(kktn_num): #kktn_num --> こうかとんの画像名の番号
     global image
     image = tk.PhotoImage(file=f"fig/{kktn_num}.png")
     canvas.create_image(mx*100+50,my*100+50,image=image,tag="kktn0")
