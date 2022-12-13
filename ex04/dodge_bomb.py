@@ -47,12 +47,11 @@ def main():
     # 雲をつくる
     crwd_sfc = pg.Surface((285,185))
     crwd_sfc.set_colorkey((0,0,0))
-    pg.draw.circle(crwd_sfc, (150,150,150), (100,65), 50)
-    pg.draw.circle(crwd_sfc, (150,150,150), (175,65), 50)
-    pg.draw.circle(crwd_sfc, (150,150,150), (50,100), 50)
-    pg.draw.circle(crwd_sfc, (150,150,150), (235,100), 50)
-    pg.draw.circle(crwd_sfc, (150,150,150), (115,135), 50)
-    pg.draw.circle(crwd_sfc, (150,150,150), (190,135), 50)
+    # Issue#12 修正
+    cd_lst = [(100,65),(175,65),(50,100),(235,100),(115,135),(190,135)]
+    for cd in cd_lst:
+        pg.draw.circle(crwd_sfc, (150,150,150), cd, 50)
+
     crwd_rct = crwd_sfc.get_rect()
     crwd_rct.centerx = random.randint(150,scrn_rct.width-150)
     crwd_rct.centery = 150
@@ -69,7 +68,7 @@ def main():
             # こうかとん座標
             key_dct = pg.key.get_pressed()
 
-            # Issues#11 修正後
+            # Issues#11 修正
             if key_dct[pg.K_UP] and tori_rct.y-1>=0:                    tori_rct.move_ip(0, -1)
             if key_dct[pg.K_DOWN] and tori_rct.y+1<900-tori_height:     tori_rct.move_ip(0, 1)
             if key_dct[pg.K_LEFT] and tori_rct.x-1>=0:                  tori_rct.move_ip(-1, 0)
