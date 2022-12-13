@@ -40,7 +40,11 @@ def main():
         if key_dct[pg.K_LEFT]:  tori_rct.centerx -= 1
 
         scrn_sfc.blit(tori_sfc, tori_rct) # こうかとん画像blit
+
+        vx,vy = +1, +1
+        bomb_rct.move_ip(vx,vy)
         scrn_sfc.blit(bomb_sfc, bomb_rct) # 爆弾画像blit
+
         pg.display.update()
         clock.tick(1000)
 
