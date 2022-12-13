@@ -35,8 +35,8 @@ def main():
     bomb_sfc.set_colorkey((0,0,0))
     pg.draw.circle(bomb_sfc, (255,0,0), (10,10),10)
     bomb_rct = bomb_sfc.get_rect()
-    bomb_rct.centerx = random.randint(0,scrn_rct.width)
-    bomb_rct.centery = random.randint(0,scrn_rct.height)
+    bomb_rct.centerx = random.randint(10,scrn_rct.width-10)
+    bomb_rct.centery = random.randint(10,scrn_rct.height-10)
     scrn_sfc.blit(bomb_sfc, bomb_rct) # 爆弾画像blit
     vx,vy = +1,+1
 
@@ -46,23 +46,15 @@ def main():
             if event.type == pg.QUIT: return
         
         key_dct = pg.key.get_pressed()
-        if key_dct[pg.K_UP]:
-            tori_rct.centery -= 1
-        if key_dct[pg.K_DOWN]:
-            tori_rct.centery += 1
-        if key_dct[pg.K_RIGHT]:
-            tori_rct.centerx += 1
-        if key_dct[pg.K_LEFT]:
-            tori_rct.centerx -= 1
+        if key_dct[pg.K_UP]:    tori_rct.centery -= 1
+        if key_dct[pg.K_DOWN]:  tori_rct.centery += 1
+        if key_dct[pg.K_RIGHT]: tori_rct.centerx += 1
+        if key_dct[pg.K_LEFT]:  tori_rct.centerx -= 1
         if check_bound(tori_rct,scrn_rct) != (+1,+1):
-            if key_dct[pg.K_UP]:
-                tori_rct.centery += 1
-            if key_dct[pg.K_DOWN]:
-                tori_rct.centery -= 1
-            if key_dct[pg.K_RIGHT]:
-                tori_rct.centerx -= 1
-            if key_dct[pg.K_LEFT]:
-                tori_rct.centerx += 1
+            if key_dct[pg.K_UP]:    tori_rct.centery += 1
+            if key_dct[pg.K_DOWN]:  tori_rct.centery -= 1
+            if key_dct[pg.K_RIGHT]: tori_rct.centerx -= 1
+            if key_dct[pg.K_LEFT]:  tori_rct.centerx += 1
         scrn_sfc.blit(tori_sfc, tori_rct) # こうかとん画像blit
 
         yoko,tate = check_bound(bomb_rct,scrn_rct)
@@ -81,6 +73,6 @@ if __name__ == "__main__":
     pg.init()
 
     main()
-
+    
     pg.quit()
     sys.exit()
