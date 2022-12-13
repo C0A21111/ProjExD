@@ -15,6 +15,7 @@ def check_bound(obj_rct, scr_rct):
 
 def main():
     clock = pg.time.Clock()
+    clock.tick(1000)
     in_game = True
 
     pg.display.set_caption("逃げろ！こうかとん") # タイトルバー
@@ -108,7 +109,6 @@ def main():
             in_game = False
 
         pg.display.update()
-        clock.tick(1000)
 
 if __name__ == "__main__":
     pg.init()
