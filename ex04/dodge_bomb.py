@@ -10,18 +10,30 @@ def main():
     # 背景画像
     pgbg_sfc = pg.image.load("fig/pg_bg.jpg")
     pgbg_rct = pgbg_sfc.get_rect() 
-    pgbg_rct.center = 800, 450
+    
     # こうかとん画像
-    kktn_sfc = pg.image.load("fig/3.png")
-    kktn_sfc = pg.transform.rotozoom(kktn_sfc, 0, 2.0)
-    kktn_rct = kktn_sfc.get_rect()
-    kktn_rct.center = 900, 400
-    kktn_sfc.blit(kktn_sfc, kktn_rct) # こうかとん画像blit
+    tori_sfc = pg.image.load("fig/3.png")
+    tori_sfc = pg.transform.rotozoom(tori_sfc, 0, 2.0)
+    tori_rct = tori_sfc.get_rect()
+    tori_rct.center = 900, 400
+    tori_sfc.blit(tori_sfc, tori_rct) # こうかとん画像blit
 
     while True:
+        scrn_sfc.blit(pgbg_sfc, pgbg_rct) # 背景画像blit
         for event in pg.event.get():
             if event.type == pg.QUIT: return
-        scrn_sfc.blit(pgbg_sfc, pgbg_rct) # 背景画像blit
+        
+        key_dct = pg.key.get_pressed()
+        if key_dct[pg.K_UP]:
+            tori_rct.centery -= 1
+        if key_dct[pg.K_DOWN]:
+            tori_rct.centery += 1
+        if key_dct[pg.K_RIGHT]:
+            tori_rct.centerx += 1
+        if key_dct[pg.K_LEFT]:
+            tori_rct.centerx -= 1
+
+        scrn_sfc.blit(tori_sfc, tori_rct) # こうかとん画像blit
         pg.display.update()
         clock.tick(1000)
 
