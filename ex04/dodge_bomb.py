@@ -1,9 +1,10 @@
 import pygame as pg
 import sys
 import random
+import time
 
 def check_bound(obj_rct, scr_rct):
-    # 第１引数：こうかとんrectまたは爆弾rect
+    # 第１引数：こうかとんrectまたは爆弾rectまたは雲rect
     # 第２引数：スクリーンrect
     # 範囲内: +1  /  範囲外： -1
     yoko,tate = +1,+1
@@ -31,14 +32,30 @@ def main():
     tori_rct.center = 900, 400
     tori_sfc.blit(tori_sfc, tori_rct) # こうかとん画像blit
 
+    # 爆弾を作る
     bomb_sfc = pg.Surface((20,20)) # 正方形の空Surface
     bomb_sfc.set_colorkey((0,0,0))
-    pg.draw.circle(bomb_sfc, (255,0,0), (10,10),10)
+    pg.draw.circle(bomb_sfc, (255,0,0), (10,10), 10)
     bomb_rct = bomb_sfc.get_rect()
     bomb_rct.centerx = random.randint(10,scrn_rct.width-10)
     bomb_rct.centery = random.randint(10,scrn_rct.height-10)
     scrn_sfc.blit(bomb_sfc, bomb_rct) # 爆弾画像blit
-    vx,vy = +1,+1
+    vx_bb,vy_bb = +1,+1
+
+    # 雲をつくる
+    crwd_sfc = pg.Surface((285,185))
+    crwd_sfc.set_colorkey((0,0,0))
+    pg.draw.circle(crwd_sfc, (150,150,150), (100,65), 50)
+    pg.draw.circle(crwd_sfc, (150,150,150), (175,65), 50)
+    pg.draw.circle(crwd_sfc, (150,150,150), (50,100), 50)
+    pg.draw.circle(crwd_sfc, (150,150,150), (235,100), 50)
+    pg.draw.circle(crwd_sfc, (150,150,150), (115,135), 50)
+    pg.draw.circle(crwd_sfc, (150,150,150), (190,135), 50)
+    crwd_rct = crwd_sfc.get_rect()
+    crwd_rct.centerx = random.randint(150,scrn_rct.width-150)
+    crwd_rct.centery = 150
+    scrn_sfc.blit(crwd_sfc, crwd_rct)
+    vx_cd,vy_cd = +1, +0
 
     while True:
         scrn_sfc.blit(pgbg_sfc, pgbg_rct) # 背景画像blit
@@ -55,15 +72,22 @@ def main():
             if key_dct[pg.K_DOWN]:  tori_rct.centery -= 1
             if key_dct[pg.K_RIGHT]: tori_rct.centerx -= 1
             if key_dct[pg.K_LEFT]:  tori_rct.centerx += 1
-        scrn_sfc.blit(tori_sfc, tori_rct) # こうかとん画像blit
+        scrn_sfc.blit(tori_sfc, tori_rct) # こうかとん画像 blit
 
-        yoko,tate = check_bound(bomb_rct,scrn_rct)
-        vx *= yoko
-        vy *= tate
-        bomb_rct.move_ip(vx,vy)
-        scrn_sfc.blit(bomb_sfc, bomb_rct) # 爆弾画像blit
+        yoko_bb,tate_bb = check_bound(bomb_rct,scrn_rct)
+        vx_bb *= yoko_bb
+        vy_bb *= tate_bb
+        bomb_rct.move_ip(vx_bb,vy_bb)
+        scrn_sfc.blit(bomb_sfc, bomb_rct) # 爆弾 blit
 
-        if tori_rct.colliderect(bomb_rct):
+        yoko_cd, _ = check_bound(crwd_rct,scrn_rct)
+        vx_cd *= yoko_cd
+        crwd_rct.move_ip(vx_cd,vy_cd)
+        scrn_sfc.blit(crwd_sfc, crwd_rct) # 雲 blit
+
+        # こうかとんと爆弾あるいは雲がぶつかったら
+        if tori_rct.colliderect(bomb_rct) or tori_rct.colliderect(crwd_rct): 
+            time.sleep(5)
             return
 
         pg.display.update()
