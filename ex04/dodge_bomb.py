@@ -3,7 +3,7 @@ import sys
 import random
 
 def check_bound(obj_rct, scr_rct):
-    # 第１引数：こうかとんrectまたは爆弾rectまたは雲rect
+    # 第１引数：爆弾rectまたは雲rect
     # 第２引数：スクリーンrect
     # 範囲内: +1  /  範囲外： -1
     yoko,tate = +1,+1
@@ -28,6 +28,7 @@ def main():
     
     # こうかとん画像
     tori_sfc = pg.image.load("fig/3.png")
+    tori_width, tori_height = 140,96
     tori_sfc = pg.transform.rotozoom(tori_sfc, 0, 2.0)
     tori_rct = tori_sfc.get_rect()
     tori_rct.center = 900, 400
@@ -67,15 +68,12 @@ def main():
         if in_game: #  ゲーム中
             # こうかとん座標
             key_dct = pg.key.get_pressed()
-            if key_dct[pg.K_UP]:    tori_rct.centery -= 1
-            if key_dct[pg.K_DOWN]:  tori_rct.centery += 1
-            if key_dct[pg.K_RIGHT]: tori_rct.centerx += 1
-            if key_dct[pg.K_LEFT]:  tori_rct.centerx -= 1
-            if check_bound(tori_rct,scrn_rct) != (+1,+1):
-                if key_dct[pg.K_UP]:    tori_rct.centery += 1
-                if key_dct[pg.K_DOWN]:  tori_rct.centery -= 1
-                if key_dct[pg.K_RIGHT]: tori_rct.centerx -= 1
-                if key_dct[pg.K_LEFT]:  tori_rct.centerx += 1
+
+            # Issues#11 修正後
+            if key_dct[pg.K_UP] and tori_rct.y-1>=0:                    tori_rct.move_ip(0, -1)
+            if key_dct[pg.K_DOWN] and tori_rct.y+1<900-tori_height:     tori_rct.move_ip(0, 1)
+            if key_dct[pg.K_LEFT] and tori_rct.x-1>=0:                  tori_rct.move_ip(-1, 0)
+            if key_dct[pg.K_RIGHT] and tori_rct.x+1<1600-tori_width:    tori_rct.move_ip(1, 0)
 
             # 爆弾座標
             yoko_bb,tate_bb = check_bound(bomb_rct,scrn_rct)
