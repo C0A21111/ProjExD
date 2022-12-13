@@ -2,6 +2,17 @@ import pygame as pg
 import sys
 import random
 
+def check_bound(obj_rct, scr_rct):
+    # 第１引数：こうかとんrectまたは爆弾rect
+    # 第２引数：スクリーンrect
+    # 範囲内: +1  /  範囲外： -1
+    yoko,tate = +1,+1
+    if obj_rct.left < scr_rct.left or obj_rct.right > scr_rct.right:
+        yoko = -1
+    if obj_rct.top < scr_rct.top or obj_rct.bottom > scr_rct.bottom:
+        tate = -1
+    return yoko,tate
+
 def main():
     clock = pg.time.Clock()
 
@@ -27,6 +38,7 @@ def main():
     bomb_rct.centerx = random.randint(0,scrn_rct.width)
     bomb_rct.centery = random.randint(0,scrn_rct.height)
     scrn_sfc.blit(bomb_sfc, bomb_rct) # 爆弾画像blit
+    vx,vy = +1,+1
 
     while True:
         scrn_sfc.blit(pgbg_sfc, pgbg_rct) # 背景画像blit
@@ -34,15 +46,30 @@ def main():
             if event.type == pg.QUIT: return
         
         key_dct = pg.key.get_pressed()
-        if key_dct[pg.K_UP]:    tori_rct.centery -= 1
-        if key_dct[pg.K_DOWN]:  tori_rct.centery += 1
-        if key_dct[pg.K_RIGHT]: tori_rct.centerx += 1
-        if key_dct[pg.K_LEFT]:  tori_rct.centerx -= 1
-
+        if key_dct[pg.K_UP]:
+            tori_rct.centery -= 1
+        if key_dct[pg.K_DOWN]:
+            tori_rct.centery += 1
+        if key_dct[pg.K_RIGHT]:
+            tori_rct.centerx += 1
+        if key_dct[pg.K_LEFT]:
+            tori_rct.centerx -= 1
+        if check_bound(tori_rct,scrn_rct) != (+1,+1):
+            if key_dct[pg.K_UP]:
+                tori_rct.centery += 1
+            if key_dct[pg.K_DOWN]:
+                tori_rct.centery -= 1
+            if key_dct[pg.K_RIGHT]:
+                tori_rct.centerx -= 1
+            if key_dct[pg.K_LEFT]:
+                tori_rct.centerx += 1
         scrn_sfc.blit(tori_sfc, tori_rct) # こうかとん画像blit
 
-        vx,vy = +1, +1
+        yoko,tate = check_bound(bomb_rct,scrn_rct)
+        vx *= yoko
+        vy *= tate
         bomb_rct.move_ip(vx,vy)
+
         scrn_sfc.blit(bomb_sfc, bomb_rct) # 爆弾画像blit
 
         pg.display.update()
