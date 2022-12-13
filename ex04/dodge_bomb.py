@@ -1,7 +1,6 @@
 import pygame as pg
 import sys
 import random
-import time
 
 def check_bound(obj_rct, scr_rct):
     # 第１引数：こうかとんrectまたは爆弾rectまたは雲rect
@@ -16,6 +15,7 @@ def check_bound(obj_rct, scr_rct):
 
 def main():
     clock = pg.time.Clock()
+    in_game = True
 
     pg.display.set_caption("逃げろ！こうかとん") # タイトルバー
     scrn_sfc = pg.display.set_mode((1600,900)) # 1600x900のSurface
@@ -30,7 +30,7 @@ def main():
     tori_sfc = pg.transform.rotozoom(tori_sfc, 0, 2.0)
     tori_rct = tori_sfc.get_rect()
     tori_rct.center = 900, 400
-    tori_sfc.blit(tori_sfc, tori_rct) # こうかとん画像blit
+    scrn_sfc.blit(tori_sfc, tori_rct) # こうかとん画像blit
 
     # 爆弾を作る
     bomb_sfc = pg.Surface((20,20)) # 正方形の空Surface
@@ -39,7 +39,7 @@ def main():
     bomb_rct = bomb_sfc.get_rect()
     bomb_rct.centerx = random.randint(10,scrn_rct.width-10)
     bomb_rct.centery = random.randint(10,scrn_rct.height-10)
-    scrn_sfc.blit(bomb_sfc, bomb_rct) # 爆弾画像blit
+    scrn_sfc.blit(bomb_sfc, bomb_rct) # 爆弾 blit
     vx_bb,vy_bb = +1,+1
 
     # 雲をつくる
@@ -61,34 +61,51 @@ def main():
         scrn_sfc.blit(pgbg_sfc, pgbg_rct) # 背景画像blit
         for event in pg.event.get():
             if event.type == pg.QUIT: return
-        
-        key_dct = pg.key.get_pressed()
-        if key_dct[pg.K_UP]:    tori_rct.centery -= 1
-        if key_dct[pg.K_DOWN]:  tori_rct.centery += 1
-        if key_dct[pg.K_RIGHT]: tori_rct.centerx += 1
-        if key_dct[pg.K_LEFT]:  tori_rct.centerx -= 1
-        if check_bound(tori_rct,scrn_rct) != (+1,+1):
-            if key_dct[pg.K_UP]:    tori_rct.centery += 1
-            if key_dct[pg.K_DOWN]:  tori_rct.centery -= 1
-            if key_dct[pg.K_RIGHT]: tori_rct.centerx -= 1
-            if key_dct[pg.K_LEFT]:  tori_rct.centerx += 1
-        scrn_sfc.blit(tori_sfc, tori_rct) # こうかとん画像 blit
+            if event.type == pg.K_q:  return
+            
+        if in_game: #  ゲーム中
+            # こうかとん座標
+            key_dct = pg.key.get_pressed()
+            if key_dct[pg.K_UP]:    tori_rct.centery -= 1
+            if key_dct[pg.K_DOWN]:  tori_rct.centery += 1
+            if key_dct[pg.K_RIGHT]: tori_rct.centerx += 1
+            if key_dct[pg.K_LEFT]:  tori_rct.centerx -= 1
+            if check_bound(tori_rct,scrn_rct) != (+1,+1):
+                if key_dct[pg.K_UP]:    tori_rct.centery += 1
+                if key_dct[pg.K_DOWN]:  tori_rct.centery -= 1
+                if key_dct[pg.K_RIGHT]: tori_rct.centerx -= 1
+                if key_dct[pg.K_LEFT]:  tori_rct.centerx += 1
 
-        yoko_bb,tate_bb = check_bound(bomb_rct,scrn_rct)
-        vx_bb *= yoko_bb
-        vy_bb *= tate_bb
-        bomb_rct.move_ip(vx_bb,vy_bb)
-        scrn_sfc.blit(bomb_sfc, bomb_rct) # 爆弾 blit
+            # 爆弾座標
+            yoko_bb,tate_bb = check_bound(bomb_rct,scrn_rct)
+            vx_bb *= yoko_bb
+            vy_bb *= tate_bb
+            bomb_rct.move_ip(vx_bb,vy_bb)
 
-        yoko_cd, _ = check_bound(crwd_rct,scrn_rct)
-        vx_cd *= yoko_cd
-        crwd_rct.move_ip(vx_cd,vy_cd)
-        scrn_sfc.blit(crwd_sfc, crwd_rct) # 雲 blit
+            # 雲座標
+            yoko_cd, _ = check_bound(crwd_rct,scrn_rct)
+            vx_cd *= yoko_cd
+            crwd_rct.move_ip(vx_cd,vy_cd)
+
+        # 各オブジェクトblit
+        scrn_sfc.blit(tori_sfc, tori_rct) # こうかとん
+        scrn_sfc.blit(bomb_sfc, bomb_rct) # 爆弾
+        scrn_sfc.blit(crwd_sfc, crwd_rct) # 雲
 
         # こうかとんと爆弾あるいは雲がぶつかったら
         if tori_rct.colliderect(bomb_rct) or tori_rct.colliderect(crwd_rct): 
-            time.sleep(5)
-            return
+            tori_sfc = pg.image.load("fig/8.png")
+            tori_sfc = pg.transform.rotozoom(tori_sfc, 0, 2.0)
+            scrn_sfc.blit(tori_sfc, tori_rct) # こうかとん画像blit
+
+            fonto = pg.font.Font(None,120)
+            txt = fonto.render("GAME OVER", True, "LIMEGREEN")
+            scrn_sfc.blit(txt, (550, 400))
+            fonto = pg.font.Font(None,60)
+            txt = fonto.render("q:  QUIT", True, "WHITE")
+            scrn_sfc.blit(txt, (720, 500))
+
+            in_game = False
 
         pg.display.update()
         clock.tick(1000)
