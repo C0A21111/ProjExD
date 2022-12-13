@@ -18,7 +18,7 @@ def main():
     clock.tick(1000)
     in_game = True
 
-    pg.display.set_caption("逃げろ！こうかとん") # タイトルバー
+    pg.display.set_caption("逃げろ！こうかとん") # タイトルバー 
     scrn_sfc = pg.display.set_mode((1600,900)) # 1600x900のSurface
     scrn_rct = scrn_sfc.get_rect()
 
@@ -44,7 +44,7 @@ def main():
     scrn_sfc.blit(bomb_sfc, bomb_rct) # 爆弾 blit
     vx_bb,vy_bb = +1,+1
 
-    # 雲をつくる
+    # 雲をつくる 
     crwd_sfc = pg.Surface((285,185))
     crwd_sfc.set_colorkey((0,0,0))
     # Issue#12 修正
