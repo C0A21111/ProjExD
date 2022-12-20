@@ -8,6 +8,7 @@ import pygame as pg
 
 R = 120     # こうかとんの爆弾消去範囲の半径
 
+
 def check_bound(obj_rct, scr_rct):
     """
     第1引数：こうかとんrectまたは爆弾rect
@@ -21,6 +22,7 @@ def check_bound(obj_rct, scr_rct):
         tate = -1
     return yoko, tate
 
+
 def check_around(kkt, bomb_lst):
     print("called")
     kx, ky = kkt.rct.center
@@ -30,6 +32,7 @@ def check_around(kkt, bomb_lst):
             bomb_lst.remove(bmb)
             print("poped")
     return bomb_lst
+
 
 def game_quit(text_obj,scr):
     text_obj.blit(scr, (550, 400))
