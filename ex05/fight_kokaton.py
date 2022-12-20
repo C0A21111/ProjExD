@@ -1,6 +1,10 @@
-import pygame as pg
+# 標準ライブラリ
 import random
 import sys
+
+# 拡張モジュール
+import pygame as pg
+
 
 R = 120     # こうかとんの爆弾消去範囲の半径
 
@@ -30,7 +34,8 @@ def check_around(kkt, bomb_lst):
 def game_quit(text_obj,scr):
     text_obj.blit(scr, (550, 400))
 
-class TextMessage:
+
+class TextMessage:  # 表示するテキストを扱うクラス
     def __init__(self, text, size, color):
         fonto = pg.font.Font(None,size)
         self.txt = fonto.render(text, True, color)
@@ -52,7 +57,7 @@ class Screen:
         self.sfc.blit(self.bgi_sfc, self.bgi_rct)
 
 
-class Clowd:
+class Clowd:    # 雨雲を扱うクラス
     def __init__(self, xy, vxy,scr:Screen):
         # 雲をつくる
         x, y = xy
@@ -169,7 +174,9 @@ def main():
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                 bomb_lst =  check_around(kkt, bomb_lst)
         
+        # 爆弾がすべて消えたら
         if not bomb_lst:
+            # ゲーム終了
             game_quit(text_game_quit["s"], scr)            
 
         if in_game:
@@ -191,7 +198,8 @@ def main():
             kkt = Bird("fig/8.png", 2.0, (kkt.rct.center))
             kkt.update(scr)
 
-            game_quit(text_game_quit["f"], scr)
+            if bomb_lst:
+                game_quit(text_game_quit["f"], scr)
             
         # 画面を更新
         pg.display.update()
