@@ -30,20 +30,8 @@ def make_dungeon(yoko, tate,sub,n):
 
     return maze_lst
 
-# def show_maze(canvas, maze_lst, screen):
-#     color = ["#fff1cf", "#b0ca71","YELLOWGREEN"]
-#     for x in range(len(maze_lst)):
-#         for y in range(len(maze_lst[x])):
-#             if x==1 and y==1:
-#                 canvas.create_rectangle(x*100, y*100, x*100+100, y*100+100, fill="#a0d8ef",tag="cvs")
-#             elif x==(len(maze_lst)-2) and y==(len(maze_lst[x])-2):
-#                 canvas.create_rectangle(x*100, y*100, x*100+100, y*100+100, fill="#f4b3c2",tag="cvs")
-#             else:
-#                 canvas.create_rectangle(x*100, y*100, x*100+100, y*100+100, fill=color[maze_lst[x][y]],tag="cvs")
-
-#2次元リストを渡すとCUIで迷路を表示
 def print_dungeon(maze_lst):
-    maze_lst = [list(x) for x in zip(*maze_lst)] #転置
+    maze_lst = [list(x) for x in zip(*maze_lst)]
     for i in maze_lst:
         for j in i:
             if j == 1:
@@ -54,8 +42,3 @@ def print_dungeon(maze_lst):
                 j = "□"
             print(j,end="")
         print()
-
-#maze_makerテスト用
-if __name__ == "__main__":
-    maze = make_dungeon(15,9,0)
-    print_dungeon(maze)

@@ -22,6 +22,7 @@ class Screen:
         pg.display.set_caption(title)
         self.sfc = pg.display.set_mode(wh)
         self.rct = self.sfc.get_rect()
+        # 背景画像を貼り付ける場合のコード
         # self.bgi_sfc = pg.image.load(image_path)
         # self.bgi_rct = self.sfc.get_rect()
 
@@ -79,7 +80,6 @@ def check_wall(x, y, maze_lst):
     return (not maze_lst[x][y]==1)
 
 
-
 def game_play_sub(floor, sub_lst, screen):
     clock = pg.time.Clock()
     sub_player = Player(f"fig/0.png", PLAYER_RATIO, (CELL_SIZE*1.5,CELL_SIZE*1.5))
@@ -110,6 +110,7 @@ def game_play_sub(floor, sub_lst, screen):
             return
 
         clock.tick(10)
+
 
 def game_play_main(floor, maze_lst):
     clock = pg.time.Clock()
@@ -168,6 +169,7 @@ def main():
     for i in range(MAIN_FLOOR_LEN):
         floor = i+1
         game_play_main(floor, all_maze_lst[i])
+
 
 if __name__ == "__main__":
     pg.init()
